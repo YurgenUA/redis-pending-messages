@@ -1,11 +1,15 @@
-run Redis in Docker container
+Sample of using Redis to reliable delayed message handling. 
+Node.js server implemented with Express.
+Use Redis notification to handle(print to server's console) expired message if client (Node.js server) is online.
+In case of Node.js server crash, expired messages are processed after ir restarts.
 
-docker run --name redis-test -d -p 3001:6379  redis
+How to test:
+1. run Redis (mapped to 3001 port) in Docker container
+"docker run --name redis-test -d -p 3001:6379  redis"
 
-run Node.js server
+2. run Node.js server (mapped to 3000 port)
+"npm i"
+"npm run dev"
 
-npm run dev
-
-
-
-curl -H "Content-Type: application/json"  -d "{\"message\":\"hey-ho\",\"time\":\"2020-26-04T10:48:00.000Z\"}" -X POST http://localhost:3000/echoAtTime
+3. send test (time should be in future!) POST request
+"curl -H "Content-Type: application/json"  -d "{\"message\":\"hey-ho\",\"time\":\"2020-04-26T15:15:30\"}" -X POST http://localhost:3000/echoAtTime"
